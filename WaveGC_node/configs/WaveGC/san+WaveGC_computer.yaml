@@ -1,0 +1,86 @@
+out_dir: results
+metric_best: accuracy
+wandb:
+  use: True
+  project: computers
+dataset:
+  format: PyG-Amazon
+  name: computers
+  task: node
+  task_type: classification
+  transductive: True
+  split: [0.6, 0.2, 0.2]
+  node_encoder: True
+  node_encoder_name: LinearNode+LapPE
+#  node_encoder_name: LinearNode+GraphormerBias
+  node_encoder_bn: False
+  edge_encoder: False
+  edge_encoder_name: DummyEdge
+  edge_encoder_bn: False
+posenc_LapPE:
+  enable: True
+  eigen:
+    laplacian_norm: sym
+    eigvec_norm: L2
+    max_freqs: 10
+  model: Transformer
+  dim_pe: 16
+  layers: 2
+  n_heads: 4  # Only used when `posenc.model: Transformer`
+  raw_norm_type: none
+train:
+  mode: custom
+  sampler: full_batch
+  #sampler: saint_rw
+  #batch_size: 32
+  eval_period: 1
+  enable_ckpt: False
+#  ckpt_period: 100
+model:
+  type: WaveSAN
+  loss_fun: cross_entropy
+  edge_decoding: dot
+  graph_pooling: mean
+gt:
+  layers: 2
+  n_heads: 4
+  dim_hidden: 72  # `gt.dim_hidden` must match `gnn.dim_inner`
+  full_graph: False
+  gamma: 1e-6
+  residual: True
+  dropout: 0.2
+  layer_norm: False
+  batch_norm: False
+gnn:
+  head: node
+  layers_pre_mp: 0
+  layers_post_mp: 1
+  dim_inner: 72  # `gt.dim_hidden` must match `gnn.dim_inner`
+  batchnorm: True
+  act: relu
+  dropout: 0.0
+  agg: mean
+  normalize_adj: False
+optim:
+  optimizer: adamW
+  weight_decay: 0.0
+  base_lr: 0.0005
+  max_epoch: 400
+  scheduler: reduce_on_plateau
+  reduce_factor: 0.5
+  schedule_patience: 20
+  min_lr: 1e-5
+WaveGC:
+  nheads: 2
+  trans_dropout: 0.1
+  adj_dropout: 0.0
+  drop: 0.5
+  num_n: 3
+  num_J: 3
+  pre_s: [2.0, 2.0, 2.0]
+  tight_frames: True
+  weight_share: True
+  trans_use: False
+  keep_eig_ratio: 0.5
+  keep_thre: 0.1
+
