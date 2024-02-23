@@ -1,5 +1,6 @@
 # WaveGC
 This is the official implement of 'Advancing Graph Convolutional Networks via General Spectral Wavelets'.
+This code is based on [GraphGPS](https://github.com/rampasek/GraphGPS).
 
 # Environment Settings
 ```
