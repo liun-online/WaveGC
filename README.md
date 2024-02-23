@@ -2,7 +2,7 @@
 This is the official implement of 'Advancing Graph Convolutional Networks via General Spectral Wavelets'.
 This code is based on [GraphGPS](https://github.com/rampasek/GraphGPS).
 
-# Environment Settings
+## Environment Settings
 ```
 python==3.10.13
 networkx==3.2.1
@@ -16,7 +16,7 @@ einops==0.7.0
 tqdm==4.66.1
 ```
 
-# Running WaveGC on long-range datasets
+## Running WaveGC on long-range datasets
 Go into 'WaveGC_graph' folder, then run the following commands:
 ```
 # GPS+WaveGC
@@ -41,7 +41,7 @@ CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_pf.yaml 
 CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_ps.yaml --repeat 4 wandb.use False
 ```
 
-# Running WaveGC on short-range datasets
+## Running WaveGC on short-range datasets
 Go into 'WaveGC_node' folder, then run the following commands:
 ```
 # GPS+WaveGC
