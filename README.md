@@ -4,15 +4,18 @@ This code is based on [GraphGPS](https://github.com/rampasek/GraphGPS).
 
 ## Python environment setup with Conda
 ```
+# Initialize the environment
 conda create -n wavegc python=3.10.13
 conda activate wavegc
 
+# Install packages about pytorch and pyg
 conda install pytorch=1.13.1 torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
 conda install pyg=2.4.0 -c pyg -c conda-forge
 pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.13.1+cu117.html
 pip install pytorch-lightning yacs torchmetrics
 pip install performer-pytorch
 
+# Install other packages
 pip install ogb==1.3.6
 pip install wandb
 pip install networkx==3.2.1
