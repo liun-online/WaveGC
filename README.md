@@ -2,18 +2,22 @@
 This is the official implement of 'Advancing Graph Convolutional Networks via General Spectral Wavelets'.
 This code is based on [GraphGPS](https://github.com/rampasek/GraphGPS).
 
-## Environment Settings
+## Python environment setup with Conda
 ```
-python==3.10.13
-networkx==3.2.1
-numpy==1.26.0
-scikit-learn=1.3.0
-scipy==1.11.3
-torch==1.13.1
-torch_geometric==2.4.0
-ogb==1.3.6
-einops==0.7.0
-tqdm==4.66.1
+conda create -n wavegc python=3.10.13
+conda activate wavegc
+
+conda install pytorch=1.13.1 torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
+conda install pyg=2.4.0 -c pyg -c conda-forge
+pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.13.1+cu117.html
+pip install pytorch-lightning yacs torchmetrics
+pip install performer-pytorch
+
+pip install ogb==1.3.6
+pip install wandb
+pip install networkx==3.2.1
+pip install einops==0.7.0
+pip install tqdm
 ```
 
 ## Running WaveGC on long-range datasets
