@@ -16,6 +16,7 @@ pip install pytorch-lightning yacs torchmetrics
 pip install performer-pytorch
 
 # Install other packages
+conda install openbabel fsspec rdkit -c conda-forge
 pip install ogb==1.3.6
 pip install wandb
 pip install networkx==3.2.1
