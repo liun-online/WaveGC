@@ -22,7 +22,8 @@ pip install wandb
 pip install networkx==3.2.1
 pip install einops==0.7.0
 pip install tqdm
-conda install pandas==1.5.3
+pip install pandas==1.5.3
+pip install tensorboardX
 ```
 
 ## Running WaveGC on long-range datasets
