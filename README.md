@@ -24,6 +24,7 @@ pip install einops==0.7.0
 pip install tqdm
 pip install pandas==1.5.3
 pip install tensorboardX
+pip install gdown
 ```
 
 ## Running WaveGC on long-range datasets
@@ -74,6 +75,6 @@ CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_photo.ya
 ```
 
 ## Usage of PCQM dataset
-Go to this url https://drive.google.com/file/d/1AsDG-9WZ5b11lzHl8Ns4Qb0HxlcUOlQq/view?usp=sharing
+cd WaveGC_graph/datasets/
 
-Download and unzip it at the folder ./WaveGC_graph/datasets/
+gdown https://drive.google.com/u/0/uc?id=1AsDG-9WZ5b11lzHl8Ns4Qb0HxlcUOlQq && unzip pcqm4m-v2-contact.zip
