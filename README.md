@@ -74,7 +74,7 @@ CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_cs.yaml 
 CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_photo.yaml --repeat 10 wandb.use False
 ```
 
-## Usage of PCQM dataset
+## Download PCQM dataset
 cd WaveGC_graph/datasets/
 
 gdown https://drive.google.com/u/0/uc?id=1AsDG-9WZ5b11lzHl8Ns4Qb0HxlcUOlQq && unzip pcqm4m-v2-contact.zip
