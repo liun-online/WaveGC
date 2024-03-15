@@ -75,4 +75,5 @@ CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_photo.ya
 
 ## Usage of PCQM dataset
 Go to this url https://drive.google.com/file/d/1AsDG-9WZ5b11lzHl8Ns4Qb0HxlcUOlQq/view?usp=sharing
+
 Download and unzip it at the folder ./WaveGC_graph/datasets/
