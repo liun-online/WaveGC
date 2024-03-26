@@ -6,6 +6,7 @@ from tqdm import tqdm
 from torch_geometric.graphgym.config import cfg
 import os
 import numpy as np
+from torch_geometric.utils import (get_laplacian, to_scipy_sparse_matrix, to_undirected)
 
 path_dict = {'computers': 'Amazon/Computers/', 
             'photo': 'Amazon/Photo/', 
@@ -21,17 +22,34 @@ def wave_in_memory(dataset):
         eigenvalue_path = "./datasets/"+path_dict[cfg.wandb.project]+"evals.npy"
         eigenvector_path = "./datasets/"+path_dict[cfg.wandb.project]+"evects.npy"
         if os.path.exists(eigenvalue_path) and os.path.exists(eigenvector_path):
-            sele_num = int(cfg.WaveGC.keep_eig_ratio * num_nodes)
-            eigenvalue = torch.from_numpy(np.load(eigenvalue_path)[:sele_num])
-            eigenvector = torch.from_numpy(np.load(eigenvector_path)[:, :sele_num])
-            data.sele_num = sele_num
-            data.eigenvalue = eigenvalue
-            data.eigenvector = eigenvector 
+            print("Eigenvalues and eigenvectors has been existed.")
         else:
-            raise NotImplementedError(
-                f"Please firstly generate the eigenvalues and eigenvectors for the dataset."
-            )
-        data.length = data.num_nodes
+            print("Decompose the adjacency matrix to get eigenvalues and eigenvectors...")
+            data = dataset.get(0)
+            N=data.num_nodes
+            print(N)
+            laplacian_norm_type = 'sym'
+            undir_edge_index = to_undirected(data.edge_index)
+
+            L = to_scipy_sparse_matrix(
+                        *get_laplacian(undir_edge_index, normalization=laplacian_norm_type,
+                                    num_nodes=N)
+                    )
+            print(L.shape)
+            eigenvalue, eigenvector = np.linalg.eigh(L.toarray())
+            print('Finish')
+            np.save(eigenvalue_path, eigenvalue)
+            np.save(eigenvector_path, eigenvector)
+
+        sele_num = int(cfg.WaveGC.keep_eig_ratio * num_nodes)
+        eigenvalue = torch.from_numpy(np.load(eigenvalue_path)[:sele_num])
+        eigenvector = torch.from_numpy(np.load(eigenvector_path)[:, :sele_num])
+
+        data.sele_num = sele_num
+        data.eigenvalue = eigenvalue
+        data.eigenvector = eigenvector 
+        data.length = num_nodes
+                
     dataset._indices = None
     dataset._data_list = data_list
     dataset.data, dataset.slices = dataset.collate(data_list)
