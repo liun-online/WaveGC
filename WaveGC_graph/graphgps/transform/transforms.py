@@ -63,7 +63,7 @@ def wave_in_memory(dataset):
             data.eigenvector = pad_eigenvector 
             data.full_index = fully_connected
             
-        data.length = data.num_nodes
+        data.length = num_nodes
     dataset._indices = None
     dataset._data_list = data_list
     dataset.data, dataset.slices = dataset.collate(data_list)
