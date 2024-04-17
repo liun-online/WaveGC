@@ -53,7 +53,7 @@ optim:
   optimizer: adamW
   weight_decay: 1e-3
   base_lr: 0.001
-  max_epoch: 100
+  max_epoch: 300
   scheduler: cosine_with_warmup
   num_warmup_epochs: 5
 WaveGC:
