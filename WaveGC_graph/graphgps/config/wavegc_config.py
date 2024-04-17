@@ -15,3 +15,4 @@ def set_cfg_lam(cfg):
     cfg.WaveGC.tight_frames = True
     cfg.WaveGC.weight_share = False
     cfg.WaveGC.trans_use = False
+    cfg.WaveGC.normalize = True
