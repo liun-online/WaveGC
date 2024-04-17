@@ -72,3 +72,4 @@ WaveGC:
   tight_frames: False
   weight_share: False
   trans_use: True
+  normalize: False
