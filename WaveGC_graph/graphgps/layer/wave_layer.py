@@ -45,10 +45,10 @@ class Wave_Conv(nn.Module):
         diag_filter_signals_after = torch.diag_embed(curr_signals.transpose(2, 1))  # B*(num_J+1)*N*N
         for t in range(self.t_number):
             filters = evc_dense @ diag_filter_signals_after[:, t, :, :] @ evc_dense_t
-            if cfg.dataset.name == 'peptides-structural' and cfg.WaveGC.tight_frames == False:
-                filters = self.adj_dropout(filters)
-            else:
+            if cfg.WaveGC.normalize:
                 filters = F.normalize(self.adj_dropout(filters))
+            else:
+                filters = self.adj_dropout(filters)
             attr = filters[batch.edge_idx].to(torch.float32)
             
             h = self.drop(self.activation(self.wavelet_conv_1[t](x, index, attr)))
