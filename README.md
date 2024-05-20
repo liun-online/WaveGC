@@ -28,51 +28,44 @@ pip install tensorboardX
 pip install gdown
 ```
 
-## Running WaveGC on long-range datasets
-Go into 'WaveGC_graph' folder, then run the following commands:
+## Reproduce main experiments
+### a. run WaveGC on long-range datasets
+Go into 'WaveGC_graph' folder, then run the following command:
 ```
-# GPS+WaveGC
+CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/{model}+WaveGC_{data}.yaml --repeat 4 wandb.use False
+```
+Here, 'model' $\in$ {gps, san, trans}, 'data' $\in$ {voc, pcqm, coco, pf, ps}. E.g.,
+```
 CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_voc.yaml --repeat 4 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_pcqm.yaml --repeat 4 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_coco.yaml --repeat 4 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_pf.yaml --repeat 4 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_ps.yaml --repeat 4 wandb.use False
-
-# SAN+WaveGC
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/san+WaveGC_voc.yaml --repeat 4 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/san+WaveGC_pcqm.yaml --repeat 4 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/san+WaveGC_coco.yaml --repeat 4 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/san+WaveGC_pf.yaml --repeat 4 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/san+WaveGC_ps.yaml --repeat 4 wandb.use False
-
-# Transformer+WaveGC
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_voc.yaml --repeat 4 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_pcqm.yaml --repeat 4 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_coco.yaml --repeat 4 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_pf.yaml --repeat 4 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_ps.yaml --repeat 4 wandb.use False
 ```
 
-## Running WaveGC on short-range datasets
-Go into 'WaveGC_node' folder, then run the following commands:
+### b. run WaveGC on short-range datasets
+Go into 'WaveGC_node' folder, then run the following command:
 ```
-# GPS+WaveGC
+CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/{model}+WaveGC_{data}.yaml --repeat 10 wandb.use False
+```
+Here, 'model' $\in$ {gps, san, trans}, 'data' $\in$ {computer, corafull, cs, photo}. E.g.,
+```
 CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_computer.yaml --repeat 10 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_corafull.yaml --repeat 10 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_cs.yaml --repeat 10 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_photo.yaml --repeat 10 wandb.use False
+```
 
-# SAN+WaveGC
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/san+WaveGC_computer.yaml --repeat 10 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/san+WaveGC_corafull.yaml --repeat 10 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/san+WaveGC_cs.yaml --repeat 10 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/san+WaveGC_photo.yaml --repeat 10 wandb.use False
-
-# Transformer+WaveGC
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_computer.yaml --repeat 10 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_corafull.yaml --repeat 10 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_cs.yaml --repeat 10 wandb.use False
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/trans+WaveGC_photo.yaml --repeat 10 wandb.use False
+### c. run WaveGC on ogbn-arxiv
+Go into 'WaveGC_arxiv' folder, then run the following command:
+```
+CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/{model}+WaveGC_arxiv.yaml --repeat 10 wandb.use False
+```
+Here, 'model' $\in$ {gps, san, trans}. E.g.,
+```
+CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_arxiv.yaml --repeat 10 wandb.use False
+```
+### d. run WaveGC on heterophily datasets
+Go into 'WaveGC_hete' folder, then run the following command:
+```
+CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/{model}+WaveGC_{data}.yaml --repeat 10 wandb.use False
+```
+Here, 'model' $\in$ {gps, san, trans}, 'data' $\in$ {actor, mine, tolo}. E.g.,
+```
+CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_actor.yaml --repeat 10 wandb.use False
 ```
 
 ## Download PCQM dataset
