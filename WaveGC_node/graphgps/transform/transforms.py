@@ -23,14 +23,14 @@ def wave_in_memory(dataset):
         eigenvalue_path = "./datasets/"+path_dict[cfg.wandb.project]+"evals.npy"
         eigenvector_path = "./datasets/"+path_dict[cfg.wandb.project]+"evects.npy"
         if os.path.exists(eigenvalue_path) and os.path.exists(eigenvector_path):
-            print("Eigenvalues and eigenvectors has been existed.")
+            print("\nEigenvalues and eigenvectors has been existed.")
         else:
-            print("Decompose the adjacency matrix to get eigenvalues and eigenvectors...")
-            data = dataset.get(0)
-            N=data.num_nodes
+            print("\nDecompose the adjacency matrix to get eigenvalues and eigenvectors...")
+            da = dataset.get(0)
+            N=da.num_nodes
             print(N)
             laplacian_norm_type = 'sym'
-            undir_edge_index = to_undirected(data.edge_index)
+            undir_edge_index = to_undirected(da.edge_index)
 
             L = to_scipy_sparse_matrix(
                         *get_laplacian(undir_edge_index, normalization=laplacian_norm_type,
