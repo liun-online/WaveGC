@@ -67,7 +67,6 @@ def wave_in_memory(dataset):
         data.sele_num = sele_num
         data.eigenvalue = eigenvalue
         data.eigenvector = eigenvector 
-        data.length = num_nodes
                 
     dataset._indices = None
     dataset._data_list = data_list
