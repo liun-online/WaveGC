@@ -39,7 +39,7 @@ Here, 'data' $\in$ {voc, pcqm, coco, pf, ps}.
 ### b. run WaveGC on short-range datasets
 Go into 'WaveGC_node' folder, then run the following command:
 ```
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/{data}.yaml --repeat 10 wandb.use False
+CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/{data}.yaml --repeat 10
 ```
 Here, 'data' $\in$ {computer, corafull, cs, photo, arxiv}.
 
