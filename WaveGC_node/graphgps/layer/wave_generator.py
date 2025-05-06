@@ -108,30 +108,31 @@ class Wave_generator(nn.Module):
     
     
     def forward(self, batch):    
-        max_node = max(batch.length)
-        max_length = max(batch.length)
+        length = torch.LongTensor([batch.num_nodes]).to(batch.x.device)
+        max_node = max(length)
+        max_length = max(length)
         sele_num = max(batch.sele_num)
         batch_num = 1
         
         evc_dense = batch.eigenvector.view(batch_num, max_node, sele_num)  # 1*N*sele_num
         eva_dense = batch.eigenvalue.view(batch_num, sele_num)  # 1*sele_num
         
-        eig_mask = self.length_to_mask(batch.length, batch.sele_num)  # eig_mask 1*sele_num 
+        eig_mask = self.length_to_mask(length, batch.sele_num)  # eig_mask 1*sele_num 
         
         eig_filter = self.ee(eva_dense, eig_mask)
         eig_scales = eig_filter
         
         coe_scaling = self.decoder_scaling(eig_filter)  # 1*sele_num*num_n
         coe_scaling[eig_mask] = 0.
-        coe_scaling = F.softmax(coe_scaling.sum(1) / (batch.length.view(-1,1)+1e-8), dim=-1)  # 1*num_n
+        coe_scaling = F.softmax(coe_scaling.sum(1) / (length.view(-1,1)+1e-8), dim=-1)  # 1*num_n
         
         coe_wavelet = self.decoder_wavelet(eig_filter)  # 1*sele_num*num_n
         coe_wavelet[eig_mask] = 0.
-        coe_wavelet = F.softmax(coe_wavelet.sum(1) / (batch.length.view(-1,1)+1e-8), dim=-1)  # 1*num_n
+        coe_wavelet = F.softmax(coe_wavelet.sum(1) / (length.view(-1,1)+1e-8), dim=-1)  # 1*num_n
         
         coe_scales = self.decoder_scales(eig_scales)  # 1*sele_num*num_J
         coe_scales[eig_mask] = 0.
-        coe_scales = coe_scales.sum(1) / (batch.length.view(-1,1)+1e-8)  # 1*num_J
+        coe_scales = coe_scales.sum(1) / (length.view(-1,1)+1e-8)  # 1*num_J
         coe_scales = self.sigmoid(coe_scales)*self.pre_s  # 1*num_J
         
         base_scaling = self.gen_base(eva_dense.unsqueeze(-1)-1., self.num_n, 'scaling')  # 1*num_n*sele_num*1
