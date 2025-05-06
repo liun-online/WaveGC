@@ -1,7 +1,7 @@
 # WaveGC
 This is the official implement of 'Advancing Graph Convolutional Networks via General Spectral Wavelets'.
 This code is based on [GraphGPS](https://github.com/rampasek/GraphGPS).
-![image](https://github.com/liun-online/WaveGC/blob/main/WaveGC_model.png)
+![image](https://github.com/liun-online/WaveGC/blob/main/model.png)
 
 ## Python environment setup with Conda
 ```
