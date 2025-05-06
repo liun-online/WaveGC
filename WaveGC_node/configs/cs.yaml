@@ -1,0 +1,64 @@
+out_dir: results
+metric_best: accuracy
+wandb:
+  use: False
+  project: cs
+dataset:
+  format: PyG-Coauthor
+  name: cs
+  task: node
+  task_type: classification
+  transductive: True
+  split: [0.6, 0.2, 0.2]
+  node_encoder: True
+  node_encoder_name: LinearNode
+  node_encoder_bn: False
+  edge_encoder: False
+  edge_encoder_name: DummyEdge
+  edge_encoder_bn: False
+train:
+  mode: custom
+  sampler: full_batch
+  eval_period: 1
+  enable_ckpt: False
+model:
+  type: WaveModel
+  loss_fun: cross_entropy
+  edge_decoding: dot
+gt:
+  layer_type: GCN+WaveGC
+  layers: 1
+  n_heads: 4
+  dim_hidden: 64  # `gt.dim_hidden` must match `gnn.dim_inner`
+  dropout: 0.2
+  attn_dropout: 0.
+  layer_norm: False
+  batch_norm: False
+gnn:
+  head: node
+  layers_pre_mp: 0
+  layers_post_mp: 1
+  dim_inner: 64  # `gt.dim_hidden` must match `gnn.dim_inner`
+  batchnorm: True
+  act: gelu
+  dropout: 0.2
+  agg: mean
+  normalize_adj: False
+optim:
+  clip_grad_norm: True
+  optimizer: adamW
+  weight_decay: 1e-3
+  base_lr: 0.001
+  max_epoch: 100
+  scheduler: cosine_with_warmup
+  num_warmup_epochs: 5
+WaveGC:
+  nheads: 2
+  trans_dropout: 0.1
+  drop: 0.5
+  num_n: 3
+  num_J: 3
+  pre_s: [0.5, 0.5, 0.5]
+  tight_frames: True
+  keep_eig_ratio: 0.3
+  keep_thre: 0.1

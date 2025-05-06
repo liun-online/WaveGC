@@ -1,0 +1,64 @@
+out_dir: results
+metric_best: accuracy
+wandb:
+  use: False
+  project: arxiv
+dataset:
+  format: OGB
+  name: ogbn-arxiv
+  task: node
+  task_type: classification
+  transductive: False
+  node_encoder: False
+  node_encoder_name: LinearNode
+  node_encoder_bn: False
+  edge_encoder: False
+  edge_encoder_name: DummyEdge
+  edge_encoder_bn: False
+train:
+  mode: custom
+  batch_size: 1
+  eval_period: 1
+  ckpt_period: 100
+model:
+  type: WaveModel
+  loss_fun: cross_entropy
+  edge_decoding: dot
+  graph_pooling: add
+gt:
+  layer_type: GCN+WaveGC
+  layers: 4
+  n_heads: 2
+  dim_hidden: 256  # `gt.dim_hidden` must match `gnn.dim_inner`
+  dropout: 0.3
+  attn_dropout: 0.5
+  layer_norm: False
+  batch_norm: True
+gnn:
+  head: inductive_node
+  layers_pre_mp: 1
+  layers_post_mp: 1
+  dim_inner: 256  # `gt.dim_hidden` must match `gnn.dim_inner`
+  layer_type: generalconv
+  stage_type: stack
+  batchnorm: True
+  act: relu
+  dropout: 0.3
+  agg: add
+  normalize_adj: False
+optim:
+  clip_grad_norm: True
+  optimizer: adamW
+  weight_decay: 1e-3
+  base_lr: 0.001
+  max_epoch: 400
+  scheduler: cosine_with_warmup
+  num_warmup_epochs: 5
+WaveGC:
+  nheads: 8
+  trans_dropout: 0.1
+  drop: 0.0
+  num_n: 3
+  num_J: 3
+  pre_s: [5.0, 5.0, 5.0] #[5.0, 0.8, 0.1]
+  tight_frames: False
