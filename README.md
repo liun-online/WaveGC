@@ -10,9 +10,9 @@ conda create -n wavegc python=3.10.13
 conda activate wavegc
 
 # Install packages about pytorch and pyg
-conda install pytorch=1.13.1 torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
-conda install pyg=2.4.0 -c pyg -c conda-forge
-pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.13.1+cu117.html
+conda install pytorch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 pytorch-cuda=12.4 -c pytorch -c nvidia
+pip install torch_geometric==2.6.1
+pip install torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.5.1+cu124
 pip install pytorch-lightning yacs torchmetrics
 pip install performer-pytorch
 
@@ -23,7 +23,7 @@ pip install wandb
 pip install networkx==3.2.1
 pip install einops==0.7.0
 pip install tqdm
-pip install pandas==1.5.3
+pip install pandas==2.2.3
 pip install tensorboardX
 pip install gdown
 ```
@@ -32,41 +32,16 @@ pip install gdown
 ### a. run WaveGC on long-range datasets
 Go into 'WaveGC_graph' folder, then run the following command:
 ```
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/{model}+WaveGC_{data}.yaml --repeat 4 wandb.use False
+CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/{data}.yaml --repeat 4
 ```
-Here, 'model' $\in$ {gps, san, trans}, 'data' $\in$ {voc, pcqm, coco, pf, ps}. E.g.,
-```
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_voc.yaml --repeat 4 wandb.use False
-```
+Here, 'data' $\in$ {voc, pcqm, coco, pf, ps}.
 
 ### b. run WaveGC on short-range datasets
 Go into 'WaveGC_node' folder, then run the following command:
 ```
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/{model}+WaveGC_{data}.yaml --repeat 10 wandb.use False
+CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/{data}.yaml --repeat 10 wandb.use False
 ```
-Here, 'model' $\in$ {gps, san, trans}, 'data' $\in$ {computer, corafull, cs, photo}. E.g.,
-```
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_computer.yaml --repeat 10 wandb.use False
-```
-
-### c. run WaveGC on ogbn-arxiv
-Go into 'WaveGC_arxiv' folder, then run the following command:
-```
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/{model}+WaveGC_arxiv.yaml --repeat 10 wandb.use False
-```
-Here, 'model' $\in$ {gps, san, trans}. E.g.,
-```
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_arxiv.yaml --repeat 10 wandb.use False
-```
-### d. run WaveGC on heterophily datasets
-Go into 'WaveGC_hete' folder, then run the following command:
-```
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/{model}+WaveGC_{data}.yaml --repeat 10 wandb.use False
-```
-Here, 'model' $\in$ {gps, san, trans}, 'data' $\in$ {actor, mine, tolo}. E.g.,
-```
-CUDA_VISIBLE_DEVICES=0 python main.py --cfg configs/WaveGC/gps+WaveGC_actor.yaml --repeat 10 wandb.use False
-```
+Here, 'data' $\in$ {computer, corafull, cs, photo, arxiv}.
 
 ## Download PCQM dataset
 cd WaveGC_graph/datasets/
