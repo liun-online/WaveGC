@@ -8,6 +8,7 @@ import os
 import numpy as np
 from torch_geometric.utils import (get_laplacian, to_scipy_sparse_matrix, to_undirected)
 import scipy as sp
+from sklearn.utils.extmath import randomized_svd
 
 path_dict = {'computers': 'Amazon/Computers/', 
             'photo': 'Amazon/Photo/', 
@@ -28,7 +29,6 @@ def wave_in_memory(dataset):
             print("\nDecompose the adjacency matrix to get eigenvalues and eigenvectors...")
             da = dataset.get(0)
             N=da.num_nodes
-            print(N)
             laplacian_norm_type = 'sym'
             undir_edge_index = to_undirected(da.edge_index)
 
@@ -38,17 +38,21 @@ def wave_in_memory(dataset):
                     )
             print(L.shape)
             if cfg.dataset.name == "ogbn-arxiv":
-                eigenvalue, eigenvector = sp.sparse.linalg.eigsh(L, k=5000, which='SM', tol=1e-5)
+                sele_num = 5000
+                I = sp.sparse.eye(num_nodes)
+                A_sym = I - L
+                U, S, _ = randomized_svd(A_sym, n_components=sele_num, random_state=42)
+                eigenvalue, eigenvector = 1-S, U
             else:
+                sele_num = int(cfg.WaveGC.keep_eig_ratio * num_nodes)
                 eigenvalue, eigenvector = np.linalg.eigh(L.toarray())
+                eigenvalue, eigenvector = eigenvalue[:sele_num], eigenvector[:, :sele_num]
             print('Finish')
             np.save(eigenvalue_path, eigenvalue)
             np.save(eigenvector_path, eigenvector)
+        eigenvalue = torch.from_numpy(np.load(eigenvalue_path)).float()
+        eigenvector = torch.from_numpy(np.load(eigenvector_path)).float()
         if cfg.dataset.name == "ogbn-arxiv":
-            sele_num = 5000
-            eigenvalue = torch.from_numpy(np.load(eigenvalue_path))
-            eigenvector = torch.from_numpy(np.load(eigenvector_path))
-            
             split_dict = dataset.get_idx_split()
             train_mask = torch.zeros(data.num_nodes).bool()
             val_mask = torch.zeros(data.num_nodes).bool()
@@ -59,12 +63,8 @@ def wave_in_memory(dataset):
             data.train_mask = train_mask
             data.val_mask = val_mask
             data.test_mask = test_mask
-        else:
-            sele_num = int(cfg.WaveGC.keep_eig_ratio * num_nodes)
-            eigenvalue = torch.from_numpy(np.load(eigenvalue_path)[:sele_num])
-            eigenvector = torch.from_numpy(np.load(eigenvector_path)[:, :sele_num])
 
-        data.sele_num = sele_num
+        data.sele_num = eigenvector.shape[1]
         data.eigenvalue = eigenvalue
         data.eigenvector = eigenvector 
                 
