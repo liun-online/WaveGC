@@ -1,5 +1,5 @@
 # WaveGC
-This is the official implement of 'Advancing Graph Convolutional Networks via General Spectral Wavelets'.
+This is the official implement of ICML 2025 paper 'A General Graph Spectral Wavelet Convolution via Chebyshev Order Decomposition'.
 This code is based on [GraphGPS](https://github.com/rampasek/GraphGPS).
 ![image](https://github.com/liun-online/WaveGC/blob/main/model.png)
 
